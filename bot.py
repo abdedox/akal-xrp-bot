@@ -7,8 +7,8 @@ TOKEN = os.getenv("BOT_TOKEN")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "مرحبا! بوت AKAL XRP جاهز ✅\n"
-        "استخدم /price لمعرفة سعر XRP"
+        "Hello! AKAL XRP Bot is ready ✅\n"
+        "Use /price to get the current XRP price"
     )
 
 async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -16,16 +16,16 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
         url = "https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd"
         r = requests.get(url, timeout=10).json()
         xrp_price = r["ripple"]["usd"]
-        await update.message.reply_text(f"💰 سعر XRP الآن: ${xrp_price}")
+        await update.message.reply_text(f"XRP Price now: ${xrp_price}")
     except Exception as e:
-        await update.message.reply_text(f"حدث خطأ في جلب السعر: {e}")
+        await update.message.reply_text(f"Error fetching price: {e}")
 
 if __name__ == "__main__":
     if not TOKEN:
-        print("خطأ: ضع BOT_TOKEN في متغيرات البيئة")
+        print("Error: BOT_TOKEN not found in environment variables")
     else:
         app = ApplicationBuilder().token(TOKEN).build()
         app.add_handler(CommandHandler("start", start))
         app.add_handler(CommandHandler("price", price))
-        print("البوت شغال...")
-        app.run_polling()
+        print("Bot is running...")
+        app.run_polling(drop_pending_updates=True, close_loop=False)
