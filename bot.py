@@ -13,7 +13,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def price(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        # جلب سعر XRP من CoinGecko
         url = "https://api.coingecko.com/api/v3/simple/price?ids=ripple&vs_currencies=usd"
         r = requests.get(url, timeout=10).json()
         xrp_price = r["ripple"]["usd"]
